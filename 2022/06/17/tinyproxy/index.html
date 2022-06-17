@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="tinyproxy0x1 前言因为公司的出口IP是固定，如果做”远程”渗透测试（要有授权书）以及远程扫描等工作的时候没和客户沟通好，会出现误封IP的情况，导致业务无法流畅的运行，沟通成本很高，遂搭建代理服务器在一定程度上避免这种情况的发生。 0x2 代理搭建搭建环境阿里云ECS  Ubuntu18.04 代理软件tinyproxy 安装过程1234567891011121314apt instal">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tinyproxy">
+<meta property="og:url" content="https://xbayli.github.io/2022/06/17/tinyproxy/index.html">
+<meta property="og:site_name" content="Wanna fly">
+<meta property="og:description" content="tinyproxy0x1 前言因为公司的出口IP是固定，如果做”远程”渗透测试（要有授权书）以及远程扫描等工作的时候没和客户沟通好，会出现误封IP的情况，导致业务无法流畅的运行，沟通成本很高，遂搭建代理服务器在一定程度上避免这种情况的发生。 0x2 代理搭建搭建环境阿里云ECS  Ubuntu18.04 代理软件tinyproxy 安装过程1234567891011121314apt instal">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-06-17T03:02:27.000Z">
+<meta property="article:modified_time" content="2022-06-17T03:15:13.765Z">
+<meta property="article:author" content="hepay">
+<meta property="article:tag" content="代理">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>tinyproxy</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tags</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/link/">Uselink</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2022/05/19/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://xbayli.github.io/2022/06/17/tinyproxy/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://xbayli.github.io/2022/06/17/tinyproxy/&text=tinyproxy"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://xbayli.github.io/2022/06/17/tinyproxy/&title=tinyproxy"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://xbayli.github.io/2022/06/17/tinyproxy/&is_video=false&description=tinyproxy"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=tinyproxy&body=Check out this article: https://xbayli.github.io/2022/06/17/tinyproxy/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://xbayli.github.io/2022/06/17/tinyproxy/&title=tinyproxy"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://xbayli.github.io/2022/06/17/tinyproxy/&title=tinyproxy"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://xbayli.github.io/2022/06/17/tinyproxy/&title=tinyproxy"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://xbayli.github.io/2022/06/17/tinyproxy/&title=tinyproxy"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://xbayli.github.io/2022/06/17/tinyproxy/&name=tinyproxy&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://xbayli.github.io/2022/06/17/tinyproxy/&t=tinyproxy"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#tinyproxy"><span class="toc-number">1.</span> <span class="toc-text">tinyproxy</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x1-%E5%89%8D%E8%A8%80"><span class="toc-number">1.1.</span> <span class="toc-text">0x1 前言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x2-%E4%BB%A3%E7%90%86%E6%90%AD%E5%BB%BA"><span class="toc-number">1.2.</span> <span class="toc-text">0x2 代理搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83"><span class="toc-number">1.2.1.</span> <span class="toc-text">搭建环境</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6"><span class="toc-number">1.2.2.</span> <span class="toc-text">代理软件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B"><span class="toc-number">1.2.3.</span> <span class="toc-text">安装过程</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x3-%E4%BB%A3%E7%90%86%E4%BD%BF%E7%94%A8"><span class="toc-number">1.3.</span> <span class="toc-text">0x3 代理使用</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        tinyproxy
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">hepay</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-06-17T03:02:27.000Z" itemprop="datePublished">2022-06-17</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E8%AE%B0%E5%BD%95/">记录</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="tinyproxy"><a href="#tinyproxy" class="headerlink" title="tinyproxy"></a>tinyproxy</h3><h4 id="0x1-前言"><a href="#0x1-前言" class="headerlink" title="0x1 前言"></a>0x1 前言</h4><p>因为公司的出口IP是固定，如果做”远程”渗透测试（要有授权书）以及远程扫描等工作的时候没和客户沟通好，会出现误封IP的情况，导致业务无法流畅的运行，沟通成本很高，遂搭建代理服务器在一定程度上避免这种情况的发生。</p>
+<h4 id="0x2-代理搭建"><a href="#0x2-代理搭建" class="headerlink" title="0x2 代理搭建"></a>0x2 代理搭建</h4><h5 id="搭建环境"><a href="#搭建环境" class="headerlink" title="搭建环境"></a>搭建环境</h5><p>阿里云ECS  Ubuntu18.04</p>
+<h5 id="代理软件"><a href="#代理软件" class="headerlink" title="代理软件"></a>代理软件</h5><p>tinyproxy</p>
+<h5 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">apt install tinyproxy  #安装</span><br><span class="line">vim /etc/tinyproxy/tinyproxy.conf  #修改配置</span><br><span class="line"></span><br><span class="line">以下为修改的内容</span><br><span class="line">---------</span><br><span class="line">Port xxxx  #改成不冲突的端口号，安全组需放通</span><br><span class="line"></span><br><span class="line">Allow 127.0.0.1 # 注释掉才能允许其他机器访问</span><br><span class="line"></span><br><span class="line">---------</span><br><span class="line"></span><br><span class="line">systemctl restart tinyproxy</span><br><span class="line">netstat -ano |grep xxxx #查看端口是否启动</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="0x3-代理使用"><a href="#0x3-代理使用" class="headerlink" title="0x3 代理使用"></a>0x3 代理使用</h4><p>浏览器代理插件以及其他软件的代理配置</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/link/">Uselink</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#tinyproxy"><span class="toc-number">1.</span> <span class="toc-text">tinyproxy</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x1-%E5%89%8D%E8%A8%80"><span class="toc-number">1.1.</span> <span class="toc-text">0x1 前言</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x2-%E4%BB%A3%E7%90%86%E6%90%AD%E5%BB%BA"><span class="toc-number">1.2.</span> <span class="toc-text">0x2 代理搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83"><span class="toc-number">1.2.1.</span> <span class="toc-text">搭建环境</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6"><span class="toc-number">1.2.2.</span> <span class="toc-text">代理软件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B"><span class="toc-number">1.2.3.</span> <span class="toc-text">安装过程</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x3-%E4%BB%A3%E7%90%86%E4%BD%BF%E7%94%A8"><span class="toc-number">1.3.</span> <span class="toc-text">0x3 代理使用</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://xbayli.github.io/2022/06/17/tinyproxy/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://xbayli.github.io/2022/06/17/tinyproxy/&text=tinyproxy"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://xbayli.github.io/2022/06/17/tinyproxy/&title=tinyproxy"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://xbayli.github.io/2022/06/17/tinyproxy/&is_video=false&description=tinyproxy"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=tinyproxy&body=Check out this article: https://xbayli.github.io/2022/06/17/tinyproxy/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://xbayli.github.io/2022/06/17/tinyproxy/&title=tinyproxy"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://xbayli.github.io/2022/06/17/tinyproxy/&title=tinyproxy"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://xbayli.github.io/2022/06/17/tinyproxy/&title=tinyproxy"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://xbayli.github.io/2022/06/17/tinyproxy/&title=tinyproxy"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://xbayli.github.io/2022/06/17/tinyproxy/&name=tinyproxy&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://xbayli.github.io/2022/06/17/tinyproxy/&t=tinyproxy"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2022
+    hepay
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tags</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/link/">Uselink</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
